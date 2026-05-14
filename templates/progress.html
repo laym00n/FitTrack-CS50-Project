@@ -1,0 +1,71 @@
+{% extends 'layout.html'%}
+
+{% block title %} Progress {% endblock %}
+
+{% block main %}
+<div class="container mt-4">
+    
+    <div class="d-flex gap-3 justify-content-center mb-4 text-center">
+        <a href="/progress?period=7" class="btn btn-{{ 'primary' if current_period == 7 else 'outline-primary' }}">7 Days</a>
+        <a href="/progress?period=30" class="btn btn-{{ 'primary' if current_period == 30 else 'outline-primary' }}">30 Days</a>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card shadow-sm p-3 mb-4">
+                <h5 class="text-center">Calorie Trend</h5>
+                <canvas id="lineChart"></canvas>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm p-3 mb-4">
+                <h5 class="text-center">Macro Split</h5>
+                <canvas id="pieChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    // get data from python
+    const dates = {{ dates | tojson }};
+    const calories = {{ calories | tojson }};
+
+    const p = {{ macros.p or 0 }};
+    const c = {{ macros.c or 0 }};
+    const f = {{ macros.f or 0 }};
+
+    // line chart for calories trend
+    const lineCtx = document.getElementById('lineChart').getContext('2d');
+    new Chart(lineCtx, {
+        type: 'line',
+        data: {
+            labels: dates,
+            datasets: [{
+                label: 'Calories Consumed',
+                data: calories,
+                borderColor: "#0d6efd",
+                tension: 0.3
+            }]
+        }
+    });
+
+    // pie chart for macros
+    const pieCtx = document.getElementById('pieChart').getContext('2d');
+    new Chart(pieCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Protein', 'Carbs', 'Fats'],
+            datasets: [{
+                data: [p, c, f],
+                backgroundColor: ['#fd7e14', '#0d6efd', '#ffc107']
+            }]
+        }
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,143 @@
+{% extends 'layout.html' %}
+
+{% block title %} Dashboard {% endblock %}
+
+{% block main %}
+
+<h1 class="mb-3 text-center"> Welcome back, {{username}}</h1>
+<h3 class="mb-5 text-center"> Today's Progress | {{today}}</h3>
+
+<div class="row mb-3">
+  <div class="col-sm-6 mb-sm-0">
+    <div class="card mb-3">
+      <div class="card-body">
+        <h5 class="card-title">Calorie</h5>
+            <div class = "progress mb-2">
+                <div class="progress-bar  
+                {% if cal_percent_calories < 90 %}
+                    bg-success
+                {% elif cal_percent_calories < 100 %}
+                    bg-warning
+                {% else %}
+                    bg-danger
+                {% endif %}"
+                style="width: {{ cal_percent_calories }}%;"><span>{{ cal_percent_calories | round }}%</span></div>
+            </div>
+            <p> Remaining Calorie: 
+                {% if remaining_cal >= 0 %}
+                    {{ calorie_goal - remaining_cal }} / {{calorie_goal}} kcal
+                {% else %}
+                    +{{ remaining_cal | abs }} kCal
+                {% endif %}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="card mb-3">
+      <div class="card-body">
+        <h5 class="card-title">Protein</h5>
+        <div class="progress mb-2">
+            <div class="progress-bar  
+                {% if  cal_percent_protein < 90 %}
+                    bg-success
+                {% elif cal_percent_protein < 100 %}
+                    bg-warning
+                {% else %}
+                    bg-danger
+                {% endif %}"
+                style="width: {{ cal_percent_protein }}%;"><span>{{ cal_percent_protein | round }}%</span></div>
+        </div>
+        <p>Remaining Protein: 
+                {% if remaining_protein >= 0 %}
+                    {{ protein_goal - remaining_protein }} / {{ protein_goal }} g
+                {% else %}
+                    +{{ remaining_protein | abs }} g
+                {% endif %}</p>               
+      </div>
+    </div>
+  </div>
+  <div class="mb-3">
+      <span class="text-secondary me-2 fw-medium">Other Macros:</span>
+      <span class="badge rounded-pill text-bg-info px-3 py-2 me-2">Carbs: {{total_carbs}}g</span>
+      <span class="badge rounded-pill text-bg-secondary px-3 py-2">Fats: {{total_fats}}g</span>
+  </div>
+</div>
+
+
+<div class="d-flex gap-3 justify-content-center mb-4">
+  <a href="/log" class="btn btn-primary me-2">Log Meal</a>
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editGoals">
+    Edit Goals
+  </button>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="editGoals" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Goals</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="/editgoals" method="post" id="goalsForm">
+          <div class="mb-3">
+            <label for="calorie_goal" class="form-label"> New Calorie Goal</label>
+            <input type="number" class="form-control shadow-none" id="calorie_goal" name="calories_goal" placeholder="Enter Calories Goal" autocomplete="off" required min="1" value="{{ calorie_goal }}">
+          </div>
+          
+          <div class="mb-3">
+            <label for="protein_goal" class="form-label"> New Protein Goal</label>
+            <input type="number" class="form-control shadow-none" id="protein_goal" name="protein_goal" step="0.1" placeholder="Enter Protein Goal" autocomplete="off" required min="1" value="{{ protein_goal}}">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" form="goalsForm" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h3 class="text-center mt-5"> Today's Meal Log</h3>
+
+{% if meals_today %}
+<table class="table table-striped table-hover text-center">
+  <thead>
+    <tr>
+      <th scope="col"></th>
+      <th scope="col">Food Name</th>
+      <th scope="col">Calories</th>
+      <th scope="col">Protein</th>
+      <th scope="col">Carbs</th>
+      <th scope="col">Fats</th>
+      <th scope="col">Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for meal in meals_today %}
+    <tr>
+      <th scope="row">{{ loop.index }}</th>
+      <td>{{ meal.food_name}}</td>
+      <td>{{ meal.calories}}</td>
+      <td>{{ meal.protein}}</td>
+      <td>{{ meal.carbs}}</td>
+      <td>{{ meal.fats}}</td>
+      <td>
+        <form action="/delete" method="post" style="display: inline"; onsubmit="return confirm('Are you Sure?');">
+          <input type="hidden" name="meal_id" value="{{ meal.id }}">
+          <button type="submit" class="btn btn-link text-danger p-0 border-0">
+            <i class="bi bi-trash"></i>
+          </button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p>No Meals logged today. Add your First Meal to see it here! &#128522;</p>
+{% endif %}
+
+{% endblock %}

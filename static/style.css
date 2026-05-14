@@ -1,0 +1,62 @@
+/* Import the Inter font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* Apply the font and a deep slate background */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #FAF3E0; /* A modern, deep slate blue/gray */
+    color: #334155; /* Crisp off-white text */
+}
+
+.navbar {
+    background-color: rgba(135, 206, 235, 0.95) !important; /* A bright, classic sky blue */
+    backdrop-filter: blur(12px); 
+    border-bottom: 1px solid rgba(100, 180, 220, 0.6); /* A slightly deeper blue for the edge */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); 
+}
+
+.navbar-brand {
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: #0f172a !important; /* Keep the bold dark text for readability */
+}
+
+.nav-link {
+    color: #334155 !important; /* Dark slate so it stands out against the sky blue */
+    font-weight: 500;
+}
+
+.nav-link:hover, .nav-link.active {
+    color: #000000 !important; /* Pure black for active/hovered links to make them pop */
+}
+
+/* Smooth, floating layout cards */
+.card {
+    background-color: #1e293b; /* Slightly lighter than the background */
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
+    color: #ffffff !important; 
+}
+
+.custom-footer {
+    background-color: transparent; /* Lets the cream background show through */
+    border-top: 1px solid rgba(0, 0, 0, 0.05); /* Soft line separating it from the content */
+    color: #64748b; /* Soft, readable gray text */
+    font-size: 0.9rem; /* Makes the footer text slightly smaller and more elegant */
+}
+
+.alert {
+    background-color: #1e1e1e !important; /* Matches dark cards */
+    color: #ffffff !important;
+    border: 1px solid #333 !important;
+}
+
+/* Simple color accents for the different message types */
+.alert-success {
+    border-left: 4px solid #198754 !important; /* Green */
+}
+
+.alert-danger {
+    border-left: 4px solid #dc3545 !important; /* Red */
+}
