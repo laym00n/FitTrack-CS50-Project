@@ -1,5 +1,6 @@
 # ForgeFit
 #### Video Demo:  https://youtu.be/Hj_cti1DWp8
+#### If you wanna check it out: https://laym00n.pythonanywhere.com/ 
 #### Description:
 
 ForgeFit is a full-stack web application designed to empower users to take control of their physical fitness and nutrition by providing a centralized platform for tracking daily macronutrient intake and managing fitness goals. Developed as a final capstone project for CS50x, this tool simplifies the complexity of balancing diet with structured workout regimens.
