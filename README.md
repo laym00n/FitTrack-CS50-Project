@@ -8,7 +8,7 @@ The core philosophy behind ForgeFit is that consistent tracking of calories and 
 
 ### Screenshots
 * **Login & Register Page:** For user authentication I made a login page which uses a dismissable flash message for succesful login and same for registering new users using register page.
-  ![Login View](docs/login.png)
+  ![Login View](docs/Login.png)
   ![Register View](docs/register.png)
 * **Dashboard & Progress Visualization:** A real-time overview of the user's daily nutritional budget, featuring dynamic progress bars and Chart.js integration.
   ![Dashboard View](docs/dashboard.png)
